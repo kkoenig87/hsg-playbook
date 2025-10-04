@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.1">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="de"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;title&gt;Playbook&lt;/title&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1">&lt;h1&gt;Playbook&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- Admin: neuen Spielzug hinzufügen --&gt;</p>
+<p class="p1">&lt;div id="admin-panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Admin: Spielzug hinzufügen&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="play-input" placeholder="Spielzug"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="addPlay()"&gt;Speichern&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;ul id="play-list"&gt;&lt;/ul&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">const password = 'coach2025!'; // Admin-Passwort</p>
+<p class="p2"><br></p>
+<p class="p1">async function loadPlays() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const res = await fetch('api/plays.json');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const plays = await res.json();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const list = document.getElementById('play-list');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>list.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>plays.forEach(p =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const li = document.createElement('li');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>li.textContent = p;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>list.appendChild(li);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function addPlay() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const play = document.getElementById('play-input').value;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!play) return alert('Bitte Spielzug eingeben');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const formData = new FormData();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>formData.append('password', password);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>formData.append('play', play);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const res = await fetch('api/save_play.php', {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body: formData</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const data = await res.json();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (data.success) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('play-input').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>loadPlays();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert(data.error || 'Fehler beim Speichern');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// Initial laden</p>
+<p class="p1">loadPlays();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
