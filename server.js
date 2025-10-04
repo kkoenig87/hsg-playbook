@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const PASSWORD = 'coach2025!'; // Admin-Passwort
+const PASSWORD = process.env.ADMIN_PASSWORD; // Admin-Passwort
 
 app.use(bodyParser.json());
 app.use(express.static('.')); // spielt deine playbook.html aus
