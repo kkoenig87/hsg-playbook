@@ -8,7 +8,19 @@ const PORT = process.env.PORT || 3000;
 const PASSWORD = process.env.ADMIN_PASSWORD; // Admin-Passwort
 
 app.use(bodyParser.json());
-app.use(express.static('.')); // spielt deine playbook.html aus
+
+const path = require('path');
+app.use('/api', express.static(path.join(__dirname, 'api'))); // API bleibt erreichbar
+
+// Playbook.html korrekt ausliefern
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'playbook.html'));
+});
+
+// Optional: direkte URL /playbook.html
+app.get('/playbook.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'playbook.html'));
+});
 
 const playsFile = path.join(__dirname, 'api', 'plays.json');
 
