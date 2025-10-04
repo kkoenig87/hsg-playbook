@@ -83,44 +83,48 @@
     <script>
         const password = 'coach2025!'; // Für Admin, optional über Environment Variable
 
-        async function loadPlays() {
-            try {
-                const res = await fetch('/api/plays');
-                const plays = await res.json();
-                const list = document.getElementById('play-list');
-                list.innerHTML = '';
-                plays.forEach(p => {
-                    const li = document.createElement('li');
-                    li.textContent = p;
-                    list.appendChild(li);
-                });
-            } catch (err) {
-                console.error('Fehler beim Laden der Spielzüge:', err);
-            }
-        }
+        async function loadPlays(){
+  const res = await fetch('/api/plays');
+  plays = await res.json();
+  renderPlays();
+}
 
-        async function addPlay() {
-            const play = document.getElementById('play-input').value.trim();
-            if (!play) return alert('Bitte Spielzug eingeben');
+async function addPlay(e){
+  e.preventDefault();
+  const title = document.getElementById("play-title").value.trim();
+  const desc = document.getElementById("play-desc").value.trim();
+  const cat = document.getElementById("play-cat").value;
+  const srcType = document.getElementById("play-srcType").value;
+  const src = document.getElementById("play-src").value.trim();
 
-            try {
-                const res = await fetch('/api/plays', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password, play })
-                });
+  if(!title || !src) return alert("Bitte Titel und Videoquelle angeben!");
 
-                const data = await res.json();
-                if (data.success) {
-                    document.getElementById('play-input').value = '';
-                    loadPlays();
-                } else {
-                    alert(data.error || 'Fehler beim Speichern');
-                }
-            } catch (err) {
-                console.error('Fehler beim Hinzufügen des Spielzugs:', err);
-                alert('Fehler beim Speichern');
-            }
+  const res = await fetch('/api/plays', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: ADMIN_PW, title, desc, cat, srcType, src })
+  });
+
+  const data = await res.json();
+  if(data.success){
+    e.target.reset();
+    loadPlays();
+  } else alert(data.error);
+}
+
+async function deletePlay(idx){
+  if(!confirm("Diesen Spielzug wirklich löschen?")) return;
+
+  const res = await fetch(`/api/plays/${idx}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: ADMIN_PW })
+  });
+
+  const data = await res.json();
+  if(data.success) loadPlays();
+  else alert(data.error);
+}
         }
 
         // Beim Laden der Seite die Spielzüge anzeigen
