@@ -5,31 +5,26 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const PASSWORD = process.env.ADMIN_PASSWORD; // Admin-Passwort
+const PASSWORD = process.env.ADMIN_PASSWORD || 'coach2025!';
 
 app.use(bodyParser.json());
 
-const path = require('path');
-app.use('/api', express.static(path.join(__dirname, 'api'))); // API bleibt erreichbar
+// API-Ordner als statische Dateien
+app.use('/api', express.static(path.join(__dirname, 'api')));
 
-// Playbook.html korrekt ausliefern
+// HTML korrekt ausliefern
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'playbook.html'));
 });
-
-// Optional: direkte URL /playbook.html
 app.get('/playbook.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'playbook.html'));
 });
 
+// JSON-Datei
 const playsFile = path.join(__dirname, 'api', 'plays.json');
+if (!fs.existsSync(playsFile)) fs.writeFileSync(playsFile, JSON.stringify([]));
 
-// Lade bestehende Plays oder erstelle neue Datei
-if (!fs.existsSync(playsFile)) {
-    fs.writeFileSync(playsFile, JSON.stringify([]));
-}
-
-// Spielerinnen: Liste aller Plays
+// Spielerinnen: Liste laden
 app.get('/api/plays', (req, res) => {
     const plays = JSON.parse(fs.readFileSync(playsFile));
     res.json(plays);
@@ -47,6 +42,7 @@ app.post('/api/plays', (req, res) => {
     res.json({ success: true, plays });
 });
 
+// Server starten
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server läuft auf Port ${PORT}`);
 });
