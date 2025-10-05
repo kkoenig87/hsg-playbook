@@ -1,131 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HSG Rü/Bau/Kö – Digitales Playbook</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏐 HSG Rü/Bau/Kö – Playbook</title>
+  <link rel="manifest" href="manifest.json">
   <style>
-    
-     body { 
-      font-family: sans-serif; 
-      margin:0; 
-      padding:0; 
-      background:#ffffff; 
-      color:#000000; 
-    }
-
-    nav {
-      display:flex;
-      justify-content:center;
-      gap:1rem;
-      background:#000000; /* Schwarz */
-      padding:0.5rem;
-    }
-
-    nav a {
-      color:#ffffff; 
-      text-decoration:none;
-      font-weight:bold;
-      padding:0.5rem 1rem;
-      border-radius:5px;
-      transition: background 0.3s;
-    }
-
-    nav a:hover {
-      background:#ff00a0; 
-      color:#ffffff;
-    }
-
-    section {
-      padding:1rem;
-      text-align:center;
-    }
-
-    header {
-      background:#ff00a0; 
-      color:#fff; 
-      padding:1rem;
-      display:flex; 
-      justify-content:center;   /* Mitte */
-      align-items:center;
-      position:relative;        /* erlaubt absolute Positionierung vom Button */
-    }
-    
-    header h1 {
-  margin: 0;
-  font-size: 1.4rem;   /* Standardgröße für normale Displays */
-  text-align: center;
-  line-height: 1.4;
-  flex: 1;
-}
-
-/* Für schmale iPhones im Hochformat */
-@media (max-width: 400px) {
-  header h1 {
-    font-size: 1.1rem;
-    line-height: 1.3;
-  }
-}
-
-/* Für Querformat oder sehr kleine Bildschirme */
-@media (max-width: 320px) {
-  header h1 {
-    font-size: 1rem;
-    line-height: 1.2;
-  }
-}
-    
-    /* Burger-Icon fixieren */
-    .menu-toggle {
-      font-size:1.8rem;
-      cursor:pointer;
-      background:none;
-      border:none;
-      color:#fff;
-      position:absolute; 
-      right:1rem;               /* am rechten Rand fixiert */
-    }
-
-    /* Sidebar */
-    .sidebar {
-      position:fixed;
-      top:0; right:-250px;
-      width:250px; height:100%;
-      background:rgba(0,0,0,0.8)
-      color:#fff;
-      transition:right 0.3s ease;
-      padding-top:2rem;
-      z-index:1000;
-    }
-    .sidebar.active { right:0; }
-
-    .sidebar a {
-      display:block;
-      padding:1rem;
-      color:#fff;
-      text-decoration:none;
-      font-weight:bold;
-    }
-    .sidebar a:hover {
-      background:#ff00a0;
-    }
-
-    /* Overlay */
-    .overlay {
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background:rgba(0,0,0,0.5);
-      display:none;
-      z-index:500;
-    }
-    .overlay.active { display:block; }
-
-    .hero {
-      text-align:center;
-      margin:1rem 0;
-    }
-    
     :root {
       --brand: #ff00a0;
       --brand-dark: #cc0080;
@@ -136,87 +16,91 @@
     * { box-sizing: border-box; }
     body {
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin:0;
       background: var(--bg);
-      margin: 0;
       color: #111;
     }
     header {
       background: var(--brand);
       color: #fff;
-      padding: 0.9rem 1rem;
-      text-align: center;
-    }
-    header h1 { margin: 0; font-size: 1.1rem; font-weight: 700; }
-    main { max-width: 1000px; margin: 1rem auto; padding: 0 1rem; }
-
-    .hidden { display: none !important; }
-
-    /* Playbook Grid */
-    .plays { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-    .play {
-      background: var(--card);
-      border-radius: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      padding: 0.8rem;
-    }
-    .play h3 { margin: 0.4rem 0; color: var(--brand-dark); }
-    .play p { color: var(--muted); font-size: 0.9rem; }
-    .play video, .play iframe {
-      width: 100%;
-      border-radius: 8px;
-      margin-top: 0.4rem;
-      background: #000;
-      aspect-ratio: 16 / 9;
-    }
-    button, select, input, textarea { font-family: inherit; }
-    button {
-      background: var(--brand);
-      color: #fff;
-      border: 0;
-      border-radius: 6px;
-      padding: 0.45rem 0.7rem;
-      cursor: pointer;
-    }
-    button:hover { background: var(--brand-dark); }
-
-    /* Admin area */
-    .admin-panel {
-      background: var(--card);
       padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      margin-bottom: 1rem;
-    }
-    .admin-panel h2 { margin-top:0;color:var(--brand-dark);}
-    .admin-panel label { display:block;font-weight:600;margin-top:0.5rem; }
-    .admin-panel input, .admin-panel textarea, .admin-panel select {
-      width:100%; padding:0.45rem; border-radius:6px; border:1px solid #ddd; margin-top:0.25rem;
-    }
-    .play-actions { margin-top:0.5rem; display:flex; justify-content:space-between; gap:0.5rem; }
-
-    /* Login Screen */
-    .login-screen {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: var(--bg);
-      flex-direction: column;
-      gap: 1rem;
-      text-align: center;
+      position: relative;
     }
-    .login-screen input {
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      width: 220px;
-      text-align: center;
+    header h1 { margin:0; font-size:1.2rem; text-align:center; flex:1; }
+    .menu-toggle {
+      font-size:1.8rem;
+      cursor:pointer;
+      background:none;
+      border:none;
+      color:#fff;
+      position:absolute;
+      right:1rem;
     }
+    .sidebar {
+      position:fixed;
+      top:0; right:-250px;
+      width:250px; height:100%;
+      background:rgba(0,0,0,0.8);
+      color:#fff;
+      transition:right 0.3s ease;
+      padding-top:2rem;
+      z-index:1000;
+    }
+    .sidebar.active { right:0; }
+    .sidebar a { display:block; padding:1rem; color:#fff; text-decoration:none; font-weight:bold; }
+    .sidebar a:hover { background: var(--brand-dark); }
+    .overlay {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.5);
+      display:none;
+      z-index:500;
+    }
+    .overlay.active { display:block; }
+
+    main { max-width:1000px; margin:1rem auto; padding:0 1rem; }
+    .hidden { display:none !important; }
+
+    /* Playbook Grid */
+    .plays { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+    .play {
+      background: var(--card);
+      border-radius:10px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
+      padding:0.8rem;
+    }
+    .play h3 { margin:0.4rem 0; color: var(--brand-dark); }
+    .play p { color: var(--muted); font-size:0.9rem; }
+    .play video, .play iframe { width:100%; border-radius:8px; margin-top:0.4rem; background:#000; aspect-ratio:16/9; }
+
+    /* Admin area */
+    .admin-panel { background: var(--card); padding:1rem; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); margin-bottom:1rem; }
+    .admin-panel h2 { margin-top:0; color: var(--brand-dark); }
+    .admin-panel label { display:block; font-weight:600; margin-top:0.5rem; }
+    .admin-panel input, .admin-panel textarea, .admin-panel select { width:100%; padding:0.45rem; border-radius:6px; border:1px solid #ddd; margin-top:0.25rem; }
+    .play-actions { margin-top:0.5rem; display:flex; justify-content:flex-start; gap:0.5rem; }
+
+    /* Login Screen */
+    .login-screen { display:flex; justify-content:center; align-items:center; height:100vh; background: var(--bg); flex-direction:column; gap:1rem; text-align:center; }
+    .login-screen input { padding:0.5rem; border:1px solid #ccc; border-radius:6px; width:220px; text-align:center; }
+    button { background: var(--brand); color:#fff; border:0; border-radius:6px; padding:0.45rem 0.7rem; cursor:pointer; }
+    button:hover { background: var(--brand-dark); }
+
+    /* Filters */
+    #filters { margin-bottom:1rem; }
+    #filters select { margin-bottom:0.5rem; }
   </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- In-App Notification -->
+<div id="inAppNotification" style="display:none; position:fixed; top:1rem; left:50%; transform:translateX(-50%); background: var(--brand); color:#fff; padding:1rem 1.5rem; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.3); z-index:10000; text-align:center;"></div>
+
+<!-- Login -->
 <div id="login" class="login-screen">
   <h2>🔒 HSG Playbook Login</h2>
   <input type="password" id="pw" placeholder="Passwort eingeben">
@@ -224,13 +108,28 @@
   <p style="font-size:0.9rem;color:var(--muted)">Nur für Teammitglieder und Coaches</p>
 </div>
 
-<!-- CONTENT -->
+<!-- Content -->
 <div id="content" class="hidden">
   <header>
-    <h1>🏐 HSG Rü/Bau/Kö – Digitales Playbook</h1>
+    <h1>🏐 HSG Rü/Bau/Kö – Playbook</h1>
+    <button class="menu-toggle">☰</button>
   </header>
+
+  <div class="sidebar" id="sidebar">
+    <a href="index.html">🏠 Home</a>
+    <a href="a-team.html">👩‍👧 wA-Team</a>
+    <a href="b-team.html">👩‍👧 wB-Team</a>
+    <a href="stats.html">📊 Statistik</a>
+    <a href="hallen.html">🏟️ Hallen</a>
+    <a href="sponsoren.html">🤝 Sponsoren</a>
+    <a href="news.html">📰 News</a>
+    <a href="fanshop.html">🛒 Fanshop</a>
+    <a href="playbook.html">🏐 Playbook</a>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
   <main>
-    <!-- Admin -->
+    <!-- Admin Panel -->
     <section id="admin-section" class="admin-panel hidden">
       <h2>Coach Verwaltungsbereich</h2>
       <form id="addPlayForm" onsubmit="addPlay(event)">
@@ -244,6 +143,13 @@
           <option>Abwehr</option>
           <option>Standard</option>
         </select>
+        <label>Position</label>
+        <select id="play-pos">
+          <option>Außen</option>
+          <option>Halbe</option>
+          <option>Kreis</option>
+          <option>Rückraum</option>
+        </select>
         <label>Videoquelle</label>
         <select id="play-srcType">
           <option value="youtube">YouTube-Link</option>
@@ -254,7 +160,27 @@
       </form>
     </section>
 
-    <!-- Übersicht -->
+    <!-- Filters -->
+    <section id="filters" class="admin-panel">
+      <h2>Filter Spielzüge</h2>
+      <label>Kategorie:</label>
+      <select id="filter-cat" onchange="renderPlays()">
+        <option value="">Alle</option>
+        <option>Angriff</option>
+        <option>Abwehr</option>
+        <option>Standard</option>
+      </select>
+      <label>Position:</label>
+      <select id="filter-pos" onchange="renderPlays()">
+        <option value="">Alle</option>
+        <option>Außen</option>
+        <option>Halbe</option>
+        <option>Kreis</option>
+        <option>Rückraum</option>
+      </select>
+    </section>
+
+    <!-- Playbook Übersicht -->
     <section>
       <h2>📖 Spielzüge</h2>
       <div id="plays" class="plays"></div>
@@ -263,97 +189,105 @@
 </div>
 
 <script>
-const PLAYER_PW = "hsg2025!";
-const ADMIN_PW = "coach2025!";
-let isAdmin = false;
-let plays = [];
+  // Sidebar
+  const menuBtn = document.querySelector(".menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  menuBtn.addEventListener("click",()=>{sidebar.classList.toggle("active");overlay.classList.toggle("active");});
+  overlay.addEventListener("click",()=>{sidebar.classList.remove("active");overlay.classList.remove("active");});
 
-async function login(){
-  const input = document.getElementById("pw").value.trim();
-  if(input === PLAYER_PW){ isAdmin = false; startApp(); }
-  else if(input === ADMIN_PW){ isAdmin = true; startApp(); }
-  else return alert("Falsches Passwort!");
-}
+  // Login / API
+  const PLAYER_PW = "hsg2025!";
+  const ADMIN_PW = "coach2025!";
+  let isAdmin=false;
+  let plays=[];
+  const API_URL='/api/plays';
 
-function startApp(){
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("content").classList.remove("hidden");
-  if(isAdmin) document.getElementById("admin-section").classList.remove("hidden");
-  loadPlays();
-}
+  async function login(){
+    const input=document.getElementById("pw").value.trim();
+    if(input===PLAYER_PW){ isAdmin=false; startApp(); }
+    else if(input===ADMIN_PW){ isAdmin=true; startApp(); }
+    else alert("Falsches Passwort!");
+  }
 
-/* API-Aufrufe */
-async function loadPlays(){
-  try {
-    const res = await fetch('/api/plays');
-    plays = await res.json();
-    renderPlays();
-  } catch(err){ console.error(err); alert("Fehler beim Laden der Spielzüge"); }
-}
+  function startApp(){
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("content").classList.remove("hidden");
+    if(isAdmin) document.getElementById("admin-section").classList.remove("hidden");
+    loadPlays();
+  }
 
-async function addPlay(e){
-  e.preventDefault();
-  const title = document.getElementById("play-title").value.trim();
-  const desc = document.getElementById("play-desc").value.trim();
-  const cat = document.getElementById("play-cat").value;
-  const srcType = document.getElementById("play-srcType").value;
-  const src = document.getElementById("play-src").value.trim();
+  async function loadPlays(){
+    try{
+      const res=await fetch(API_URL);
+      plays=await res.json();
+      renderPlays();
+    }catch(err){ console.error(err); alert("Fehler beim Laden der Spielzüge"); }
+  }
 
-  if(!title || !src) return alert("Bitte Titel und Videoquelle angeben!");
+  async function addPlay(e){
+    e.preventDefault();
+    const title=document.getElementById("play-title").value.trim();
+    const desc=document.getElementById("play-desc").value.trim();
+    const cat=document.getElementById("play-cat").value;
+    const pos=document.getElementById("play-pos").value;
+    const srcType=document.getElementById("play-srcType").value;
+    const src=document.getElementById("play-src").value.trim();
+    if(!title||!src){ alert("Bitte Titel und Videoquelle angeben!"); return; }
 
-  try {
-    const res = await fetch('/api/plays', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ password: ADMIN_PW, title, desc, cat, srcType, src })
+    try{
+      const res=await fetch('/api/plays',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({password:ADMIN_PW,title,desc,cat,pos,srcType,src})
+      });
+      const data=await res.json();
+      if(data.success){ e.target.reset(); loadPlays(); }
+      else alert(data.error||'Fehler beim Speichern');
+    }catch(err){ console.error(err); alert('Fehler beim Speichern'); }
+  }
+
+  async function deletePlay(idx){
+    if(!confirm("Diesen Spielzug wirklich löschen?")) return;
+    try{
+      const res=await fetch(`/api/plays/${idx}`,{
+        method:'DELETE',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({password:ADMIN_PW})
+      });
+      const data=await res.json();
+      if(data.success) loadPlays();
+      else alert(data.error||'Fehler beim Löschen');
+    }catch(err){ console.error(err); alert('Fehler beim Löschen'); }
+  }
+
+  function renderPlays(){
+    const container=document.getElementById("plays");
+    container.innerHTML="";
+    const catFilter=document.getElementById("filter-cat")?.value||"";
+    const posFilter=document.getElementById("filter-pos")?.value||"";
+    const filtered=plays.filter(p=>(catFilter===""||p.cat===catFilter)&&(posFilter===""||p.pos===posFilter));
+    if(filtered.length===0){ container.innerHTML="<p style='color:var(--muted)'>Keine Spielzüge gefunden.</p>"; return; }
+    filtered.forEach((p,idx)=>{
+      const div=document.createElement("div");
+      div.className="play";
+      div.innerHTML=`
+        <h3>${p.title}</h3>
+        <p><strong>Kategorie:</strong> ${p.cat}</p>
+        <p><strong>Position:</strong> ${p.pos || "-"}</p>
+        <p>${p.desc}</p>
+        ${p.srcType==='youtube'? `<iframe src="${convertToEmbed(p.src)}" allowfullscreen></iframe>`:`<video controls src="${p.src}"></video>`}
+        ${isAdmin?`<div class="play-actions"><button onclick="deletePlay(${idx})">🗑️ Löschen</button></div>`:""}
+      `;
+      container.appendChild(div);
     });
-    const data = await res.json();
-    if(data.success){
-      e.target.reset();
-      loadPlays();
-    } else alert(data.error || 'Fehler beim Speichern');
-  } catch(err){ console.error(err); alert('Fehler beim Speichern'); }
-}
+  }
 
-async function deletePlay(idx){
-  if(!confirm("Diesen Spielzug wirklich löschen?")) return;
-  try {
-    const res = await fetch(`/api/plays/${idx}`, {
-      method:'DELETE',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ password: ADMIN_PW })
-    });
-    const data = await res.json();
-    if(data.success) loadPlays();
-    else alert(data.error || 'Fehler beim Löschen');
-  } catch(err){ console.error(err); alert('Fehler beim Löschen'); }
-}
-
-function renderPlays(){
-  const container = document.getElementById("plays");
-  container.innerHTML = "";
-  if(plays.length===0){ container.innerHTML="<p style='color:var(--muted)'>Noch keine Spielzüge vorhanden.</p>"; return; }
-  plays.forEach((p,idx)=>{
-    const div=document.createElement("div");
-    div.className="play";
-    div.innerHTML=`
-      <h3>${p.title}</h3>
-      <p><strong>Kategorie:</strong> ${p.cat}</p>
-      <p>${p.desc}</p>
-      ${p.srcType==='youtube'
-        ? `<iframe src="${convertToEmbed(p.src)}" allowfullscreen></iframe>`
-        : `<video controls src="${p.src}"></video>`}
-      ${isAdmin?`<div class="play-actions"><button onclick="deletePlay(${idx})">🗑️ Löschen</button></div>`:""}
-    `;
-    container.appendChild(div);
-  });
-}
-
-function convertToEmbed(url){
-  if(!url.includes("youtube")) return url;
-  const id = url.split("v=")[1]?.split("&")[0];
-  return `https://www.youtube.com/embed/${id}`;
-}
+  function convertToEmbed(url){
+    if(!url.includes("youtube")) return url;
+    const id=url.split("v=")[1]?.split("&")[0];
+    return `https://www.youtube.com/embed/${id}`;
+  }
 </script>
 </body>
 </html>
