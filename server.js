@@ -1,59 +1,58 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const fetch = require('node-fetch'); // falls Node <18, ansonsten native fetch nutzen
+import express from "express";
+import fetch from "node-fetch";
+import cors from "cors";
+
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
-app.use(express.static('./')); // Statische Dateien (playbook.html etc.)
+// Dein MockAPI-Endpunkt
+const MOCKAPI_URL = "https://68e58a6d21dd31f22cc20e06.mockapi.io/plays";
 
-const MOCKAPI_BASE = 'https://68e58a6d21dd31f22cc20e06.mockapi.io/plays';
-const ADMIN_PW = 'coach2025!';
+app.use(cors());
+app.use(express.json());
 
-// === GET /api/plays ===
-app.get('/api/plays', async (req, res) => {
+// --- ALLE SPIELZÜGE LADEN ---
+app.get("/plays", async (req, res) => {
   try {
-    const response = await fetch(MOCKAPI_BASE);
-    const data = await response.json();
-    res.json(data);
-  } catch(err) {
-    console.error(err);
-    res.status(500).json({error:'Fehler beim Laden der Spielzüge'});
+    const response = await fetch(MOCKAPI_URL);
+    const plays = await response.json();
+    res.json(plays);
+  } catch (err) {
+    console.error("Fehler beim Laden der Spielzüge:", err);
+    res.status(500).json({ error: "Fehler beim Laden der Spielzüge" });
   }
 });
 
-// === POST /api/plays ===
-app.post('/api/plays', async (req,res) => {
-  const { password, title, desc, cat, pos, srcType, src } = req.body;
-  if(password !== ADMIN_PW) return res.status(403).json({error:'Ungültiges Passwort'});
-
+// --- NEUEN SPIELZUG ANLEGEN ---
+app.post("/plays", async (req, res) => {
   try {
-    const response = await fetch(MOCKAPI_BASE, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ title, desc, cat, pos, srcType, src })
+    const response = await fetch(MOCKAPI_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body),
     });
-    const data = await response.json();
-    res.json({success:true, data});
-  } catch(err){
-    console.error(err);
-    res.status(500).json({error:'Fehler beim Speichern'});
+    const newPlay = await response.json();
+    res.json(newPlay);
+  } catch (err) {
+    console.error("Fehler beim Speichern:", err);
+    res.status(500).json({ error: "Fehler beim Speichern" });
   }
 });
 
-// === DELETE /api/plays/:id ===
-app.delete('/api/plays/:id', async (req,res) => {
-  const { password } = req.body;
-  if(password !== ADMIN_PW) return res.status(403).json({error:'Ungültiges Passwort'});
-
+// --- SPIELZUG LÖSCHEN ---
+app.delete("/plays/:id", async (req, res) => {
   try {
-    const response = await fetch(`${MOCKAPI_BASE}/${req.params.id}`, { method:'DELETE' });
-    const data = await response.json();
-    res.json({success:true, data});
-  } catch(err){
-    console.error(err);
-    res.status(500).json({error:'Fehler beim Löschen'});
+    const response = await fetch(`${MOCKAPI_URL}/${req.params.id}`, {
+      method: "DELETE",
+    });
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Fehler beim Löschen:", err);
+    res.status(500).json({ error: "Fehler beim Löschen" });
   }
 });
 
-app.listen(PORT, () => console.log(`✅ Server läuft auf Port ${PORT}`));
+// --- SERVER STARTEN ---
+app.listen(PORT, () => {
+  console.log(`✅ Server läuft auf Port ${PORT}`);
+});
